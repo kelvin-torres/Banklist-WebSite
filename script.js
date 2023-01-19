@@ -7,6 +7,10 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const navLink = document.querySelectorAll('.nav__link');
+const navLinkS = document.querySelector('.nav__links');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -28,6 +32,53 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
+});
+
+// Page navigation
+// if we use this way it will make the page heavy, imagining if we have 100 links
+/*
+navLink.forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();
+    const id = this.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  });
+}); */
+
+navLinkS.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log(e.target);
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// Button Scrooling
+btnScrollTo.addEventListener('click', function (e) {
+  //const s1coords = section1.getBoundingClientRect();
+  // console.log(s1coords);
+  // console.log(e.target.getBoundingClientRect());
+  // console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+
+  // Scrolling
+  // window.scrollTo(
+  //   s1coords.left + window.pageXOffset,
+  //   s1coords.top + window.pageYOffset
+  // );
+
+  /* OLD WAY OF DOING THE SMOOTH SCROLLING
+  window.scrollTo({
+    left: s1coords.left + window.pageXOffset,
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  }); */
+
+  // NEW WAY
+  section1.scrollIntoView({ behavior: 'smooth' });
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -106,28 +157,15 @@ logo.classList.contains('C');
 // Don't use like this
 logo.className = 'Kelvin';
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
+// 189 - Types of Events
+/*
+const h1 = document.querySelector('h1');
 
-btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
-  // console.log(s1coords);
-  // console.log(e.target.getBoundingClientRect());
-  // console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+const alertH1 = function (e) {
+  alert('AddEventListener: Great, you are reading the heading =D');
 
-  // Scrolling
-  // window.scrollTo(
-  //   s1coords.left + window.pageXOffset,
-  //   s1coords.top + window.pageYOffset
-  // );
+  h1.removeEventListener('mouseenter', alertH1);
+};
 
-  /* OLD WAY OF DOING THE SMOOTH SCROLLING
-  window.scrollTo({
-    left: s1coords.left + window.pageXOffset,
-    top: s1coords.top + window.pageYOffset,
-    behavior: 'smooth',
-  }); */
-
-  // NEW WAY
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
+h1.addEventListener('mouseenter', alertH1);
+*/
