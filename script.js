@@ -9,6 +9,8 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const header = document.querySelector('.header');
+const allSections = document.querySelectorAll('.section');
 const navLink = document.querySelectorAll('.nav__link');
 const navLinkS = document.querySelector('.nav__links');
 const nav = document.querySelector('.nav');
@@ -51,12 +53,10 @@ navLink.forEach(function (el) {
 
 navLinkS.addEventListener('click', function (e) {
   e.preventDefault();
-  console.log(e.target);
 
   // Matching strategy
   if (e.target.classList.contains('nav__link')) {
     const id = e.target.getAttribute('href');
-    console.log(id);
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
@@ -93,9 +93,6 @@ btnScrollTo.addEventListener('click', function (e) {
 // console.log(document.documentElement);
 // console.log(document.head);
 //console.log(document.body);
-
-const header = document.querySelector('.header');
-const allSections = document.querySelectorAll('.section');
 //console.log(allSections);
 
 document.getElementById('section--1');
@@ -185,7 +182,6 @@ h1.closest('.header').style.background = 'lightgray';
 // Tabbed component *194*
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
-  console.log(clicked);
 
   // Guard clause
   if (!clicked) return;
@@ -260,3 +256,20 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 });
 
 headerObserver.observe(header);
+
+// Reveal sections
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
